@@ -1,0 +1,22 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Sample figure.}}{2}{figure.1.1}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces This is the same sample figure with still a long caption but this time we did not use a short caption command in the table of figures.}}{3}{figure.1.2}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces An example of putting two figures side by side using the subfigure package.}}{4}{figure.1.3}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Figure on the left side is identical to the one on the right.}}}{4}{figure.1.3}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Figure on the right side is identical to the one on the left.}}}{4}{figure.1.3}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Another Figure}}{4}{figure.1.4}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Another Figure with a very long title to check the alignment in the lof}}{4}{figure.1.5}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Another Figure}}{4}{figure.1.6}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Another Figure}}{4}{figure.1.7}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Another Figure}}{4}{figure.1.8}
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Another Figure}}{4}{figure.1.9}
+\contentsline {figure}{\numberline {1.10}{\ignorespaces Another Figure}}{4}{figure.1.10}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
