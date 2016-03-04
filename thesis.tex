@@ -1,0 +1,103 @@
+\documentclass[msc,oneside]{ubcthesis}%msc, phd, masc, ma, or meng
+
+% ================================================================================
+% CHANGE THE FOLLOWING ACCORDING TO YOUR PROGRAM/THESIS
+% ================================================================================
+\institution{The University Of British Columbia}
+\faculty{THE COLLEGE OF GRADUATE STUDIES}
+\institutionaddress{Okanagan}
+
+% For an Honours thesis, use \documentclasss[msc,oneside]{ubcthesis} above and
+% uncomment and modify the next line:
+%\degreetitle{B.Sc. Computer Science Honours}
+
+\title{Honours Computer Science Thesis}
+\subtitle{\emph{rally}, a one stop-shop for all reddit data}
+\author{Kevin J. Eger}
+\copyrightyear{2010}
+\submitdate{April 2010} % date of approved thesis
+\program{Interdisciplinary Studies - Optimization}%or Mathematics, or Interdisciplinary Studies
+\previousdegree{B.Sc. Hons., The University of British Columbia, 2008}
+
+% ================================================================================
+
+
+\usepackage{ubcostyle} %loads packages
+
+
+% ===================================================================
+% CHANGE THE FOLLOWING COMMANDS ACCORDING TO YOUR NEEDS
+% ===================================================================
+\newcommand{\R}{\mathbb{R}}   %real number
+\newcommand{\Z}{\mathbb{Z}}   %integers
+\newcommand{\C}{\mathbb{C}}   %complex numbers
+
+\newcommand{\dom}{\operatorname{dom}}
+\providecommand{\TT}[1]{\Theta\left(#1\right)} % big-Theta
+\providecommand{\OO}[1]{\mathcal{O}\left(#1\right)} % big-Oh
+% ===================================================================
+
+%Uncomment the next line if there are more than one appendix
+%\renewcommand*\appendixname{Appendices}
+
+
+\begin{document}
+
+% This starts numbering in Roman numerals as required for the thesis
+% style.
+\frontmatter                    % Mandatory
+
+% The order of the following components should be preserved.  The order
+% listed here is the order currently required by FoGS.
+\maketitle                      % Mandatory
+
+\begin{abstract}                % Mandatory -  maximum 350 words
+Reddit is \emph{the front page of the internet}, a slogan the company has coined and rightfully lived up to. It is a website which brings together members of all communities in a similar style to a typical forum but with much more structure and a lot more traffic. Due to the open nature of reddit, it generates a large amount of traffic, averaging over 200 million unique visitors a month. With such traffic screams the demand for data analysis through a human-interpretable medium which this thesis covers. Data analysis on reddit has been done before however this thesis focuses on bringing the data gathered in to a easily consumable format. We will explore the implementation and results of querying the reddit API, generating aggregate statistics, querying large data dumps of historic reddit data with \emph{Google BigQuery} and the use of unsupervised machine learning to draw powerful conclusions.
+\end{abstract}
+
+\newpage
+\phantomsection \label{tableofcontent}%set anchor at right location
+\addcontentsline{toc}{chapter}{\contentsname}
+\tableofcontents                % Mandatory: generate toc
+\newpage 
+\phantomsection \label{listoftab}%set anchor at right location
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables                   % Mandatory if thesis has tables
+\newpage
+\phantomsection \label{listoffig}%set anchor at right location
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures                  % Mandatory if thesis has figures
+
+
+\chapter{Acknowledgements}      % Optional
+Work on this thesis was widely facilitated with help from Dr. Ramon Lawrence through weekly meetings where ideas and progress were discussed extensively. It is also important to acknowledge Dr. Jeff Andrews for his support in advising on machine learning techniques which were implemented as described later.
+
+
+
+% Any other unusual prefactory material should come here before the
+% main body.
+
+% Now regular page numbering begins.
+\mainmatter
+
+% Parts are the largest structural units, but are optional.
+%\part{Thesis}
+
+% Chapters are the next main unit.
+\chapter{Introduction}
+To best understand this thesis and the work done, it is necessary to first understand the relevant technologies and key terms which will be heavily referenced and built upon. 
+
+\section{Key Terms}
+
+\subsection{Reddit}
+%Todo, figure out why i can't site this
+This is an example citation \cite{varineq}.
+
+\newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
+\pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}
+\bibliographystyle{ubco}
+%\bibliographystyle{siam}
+\bibliography{thesis_references}%name of your .bib file
+
+\end{document}
+\endinput

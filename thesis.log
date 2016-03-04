@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.22)  27 JAN 2016 10:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.22)  1 FEB 2016 14:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**ubc_2010_spring_doe_jane.tex
-(./ubc_2010_spring_doe_jane.tex
+**thesis.tex
+(./thesis.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (./ubcthesis.cls
@@ -680,24 +680,23 @@ File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
 \Hy@SectionHShift=\skip180
 )
 \c@theorem=\count153
-)
-(./ubc_2010_spring_doe_jane.aux)
-\openout1 = `ubc_2010_spring_doe_jane.aux'.
+) (./thesis.aux)
+\openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
-LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -728,8 +727,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box70
-Package backref Info: ** backref set up for natbib ** on input line 45.
-Package hyperref Info: Link coloring OFF on input line 45.
+Package backref Info: ** backref set up for natbib ** on input line 44.
+Package hyperref Info: Link coloring OFF on input line 44.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -739,21 +738,21 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count160
 )
-LaTeX Info: Redefining \ref on input line 45.
-LaTeX Info: Redefining \pageref on input line 45.
-LaTeX Info: Redefining \nameref on input line 45.
+LaTeX Info: Redefining \ref on input line 44.
+LaTeX Info: Redefining \pageref on input line 44.
+LaTeX Info: Redefining \nameref on input line 44.
 
-(./ubc_2010_spring_doe_jane.out) (./ubc_2010_spring_doe_jane.out)
+(./thesis.out) (./thesis.out)
 \@outlinefile=\write4
-\openout4 = `ubc_2010_spring_doe_jane.out'.
+\openout4 = `thesis.out'.
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 54.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 53.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 54.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
  [1
 Non-PDF special ignored!
 
@@ -762,13 +761,9 @@ Non-PDF special ignored!
 [2
 
 
-] [3
-
-
-] (./ubc_2010_spring_doe_jane.toc
+] (./thesis.toc
 LaTeX Font Info:    Try loading font information for U+msa on input line 1.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 1.
@@ -777,154 +772,63 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 1.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ))
 \tf@toc=\write5
-\openout5 = `ubc_2010_spring_doe_jane.toc'.
+\openout5 = `thesis.toc'.
 
- [4]
-(./ubc_2010_spring_doe_jane.lot)
+ [3
+
+] (./thesis.lot)
 \tf@lot=\write6
-\openout6 = `ubc_2010_spring_doe_jane.lot'.
+\openout6 = `thesis.lot'.
 
- [5] (./ubc_2010_spring_doe_jane.lof)
+
+[4] (./thesis.lof)
 \tf@lof=\write7
-\openout7 = `ubc_2010_spring_doe_jane.lof'.
+\openout7 = `thesis.lof'.
 
- [6]
-[7
-
-] [8
+ [5] [6
 
 ]
 Chapter 1.
-
-Package natbib Warning: Citation `MR2848848' on page 1 undefined on input line 
-116.
+[1
 
 
-Package natbib Warning: Citation `MR2461448' on page 1 undefined on input line 
-116.
+] (./thesis.bbl (./thesis.brf)
+\tf@brf=\write8
+\openout8 = `thesis.brf'.
 
-
-Package natbib Warning: Citation `MR2834159' on page 1 undefined on input line 
-116.
-
-
-Package natbib Warning: Citation `infconv' on page 1 undefined on input line 11
-6.
-
-
-Package natbib Warning: Citation `convmono' on page 1 undefined on input line 1
-16.
-
-
-Package natbib Warning: Citation `MR2668638' on page 1 undefined on input line 
-116.
-
-
-Package natbib Warning: Citation `Bauschke:2007-PA02' on page 1 undefined on in
-put line 116.
-
-
-Package natbib Warning: Citation `proxbas' on page 1 undefined on input line 11
-6.
-
-<figure.pdf, id=191, 597.50786pt x 845.04686pt>
-File: figure.pdf Graphic file (type pdf)
- <use figure.pdf>
-Package pdftex.def Info: figure.pdf used on input line 129.
-(pdftex.def)             Requested size: 143.9978pt x 203.65352pt.
-File: figure.pdf Graphic file (type pdf)
-
-<use figure.pdf>
-Package pdftex.def Info: figure.pdf used on input line 139.
-(pdftex.def)             Requested size: 143.9978pt x 203.65352pt.
-File: figure.pdf Graphic file (type pdf)
- <use figure.pdf>
-Package pdftex.def Info: figure.pdf used on input line 154.
-(pdftex.def)             Requested size: 150.56305pt x 212.93745pt.
-File: figure.pdf Graphic file (type pdf)
- <use figure.pdf>
-Package pdftex.def Info: figure.pdf used on input line 158.
-(pdftex.def)             Requested size: 150.56305pt x 212.93745pt.
- [1
-
-
-] [2 <./figure.pdf>]
-[3] [4]
-Chapter 2.
-
-Package natbib Warning: Citation `Hiriart-Urruty:1993-ConvexAnalysis' on page 5
- undefined on input line 223.
-
-
-Package natbib Warning: Citation `Bauschke:2007-PA02' on page 5 undefined on in
-put line 246.
-
-[5
-
-] [6]
-Chapter 3.
-[7
-
-] [8
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 102.
+ [2
 
 ]
-Chapter 4.
-[9
-
-
-] [10]
-No file ubc_2010_spring_doe_jane.bbl.
-Chapter 5.
-
-Package natbib Warning: Citation `Fear:2005manual' on page 11 undefined on inpu
-t line 319.
-
-[11
-
-] [12] [13]
-Chapter 6.
-[14
-
-]
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 383.
-[15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 383.
- (./ubc_2010_spring_doe_jane.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 383.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 383.
-Package rerunfilecheck Info: File `ubc_2010_spring_doe_jane.out' has not change
-d.
-(rerunfilecheck)             Checksum: 8749D38F5DFC4A4DAC50A96811143BB8;918.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 383.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 102.
+ (./thesis.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 102.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 102.
+Package rerunfilecheck Info: File `thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 626F8EECBCD5DEB2EA8C7DA68DA8CA7B;471.
+Package rerunfilecheck Info: File `thesis.brf' has not changed.
+(rerunfilecheck)             Checksum: 9E7DC05FDB6F67287E95C964F0D59A0D;111.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 102.
  ) 
 Here is how much of TeX's memory you used:
- 10586 strings out of 493304
- 149100 string characters out of 6139871
- 278688 words of memory out of 5000000
- 13779 multiletter control sequences out of 15000+600000
- 13470 words of font info for 51 fonts, out of 8000000 for 9000
+ 10497 strings out of 493304
+ 147895 string characters out of 6139871
+ 273814 words of memory out of 5000000
+ 13749 multiletter control sequences out of 15000+600000
+ 11723 words of font info for 43 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 41i,10n,55p,495b,407s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,9n,55p,938b,409s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsl10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on ubc_2010_spring_doe_jane.pdf (23 pages, 188967 bytes).
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on thesis.pdf (8 pages, 89313 bytes).
 PDF statistics:
- 342 PDF objects out of 1000 (max. 8388607)
- 297 compressed objects within 3 object streams
- 76 named destinations out of 1000 (max. 500000)
- 142 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 127 PDF objects out of 1000 (max. 8388607)
+ 109 compressed objects within 2 object streams
+ 20 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
