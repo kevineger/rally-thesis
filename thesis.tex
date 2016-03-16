@@ -4,20 +4,19 @@
 % CHANGE THE FOLLOWING ACCORDING TO YOUR PROGRAM/THESIS
 % ================================================================================
 \institution{The University Of British Columbia}
-\faculty{THE COLLEGE OF GRADUATE STUDIES}
+\faculty{Unit 5}
 \institutionaddress{Okanagan}
 
 % For an Honours thesis, use \documentclasss[msc,oneside]{ubcthesis} above and
 % uncomment and modify the next line:
-%\degreetitle{B.Sc. Computer Science Honours}
+\degreetitle{B.Sc. Computer Science Honours}
 
 \title{Honours Computer Science Thesis}
 \subtitle{\emph{rally}, a one stop-shop for all reddit data}
 \author{Kevin J. Eger}
-\copyrightyear{2010}
-\submitdate{April 2010} % date of approved thesis
-\program{Interdisciplinary Studies - Optimization}%or Mathematics, or Interdisciplinary Studies
-\previousdegree{B.Sc. Hons., The University of British Columbia, 2008}
+\copyrightyear{2016}
+\submitdate{April 2016} % date of approved thesis
+\program{Computer Science}%or Mathematics, or Interdisciplinary Studies
 
 % ================================================================================
 
@@ -87,6 +86,9 @@ Work on this thesis was widely facilitated with help from Dr. Ramon Lawrence thr
 \chapter{Introduction}
 To best understand this thesis and the work done, it is necessary to first be introduced to the relevant technologies and key terms which will be heavily referenced and built upon.
 
+\section{Terms and Definitions}
+TODO
+
 \section{Reddit}
 A type of online community where users vote on content.
 
@@ -106,9 +108,45 @@ Reddit as a company and as a community has been known for several philanthropic 
 \end{itemize}
 
 \chapter{Technical Stack}
-Rally is a project that explores many different types of data access, processing techniques and display forms. The technical stack is broken in to components as follows.
+Rally is a project that explores many different types of data access, processing techniques and display forms. Due to the nature of web applications, it is no surprise that rally is implemented with modular programming in mind. Several key components outlined below are what will allow this project to be easily continued and built on. The technical stack is broken in to components as follows.
+
+\section{Laravel}
+Laravel is a \textit{PHP} web application framework with expressive, elegant syntax \citep{Laravel}. Laravel is designed primarily with the motive of removing the repetitive and often painful part of building trivial common tasks to a majority of web projects (ie: authentication, routing, sessions, etc.). Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality \citep{Laravel}. The accessible and powerful framework was chosen for it's existing familiarity and power to implement a project spanning many domains.
+
+\subsection{MVC}
+Laravel follows the traditional Model-View-Controller design pattern. Models interact with the database through the \textit{Eloquent} ORM, to retrieve objects' information. Controllers handle the requests and retrieving data by leveraging the models. Views render the web pages and are returned to the user.\par
+This intrinsic design pattern was followed tightly alongside the addition of a repository layer. As referenced in the [enter section here] section, \textit{Rally} interacts with several external resources such as the Reddit API and Google BigQuery. These external resources house gigabytes of data thus storing them locally and accessing them through a model is counterproductive. To retain the structure of the MVC framework, a repository layer is built on top of both phpRaw and the BigQuery facade (discussed in detail in section [enter section]). This allows the convenience of a seemingly object oriented interaction. Not only does it allow for convenient method calls but also abstracts logic away from the controllers, leaving them as slim as possible. This is a vital design philosophy to web development as it modularizes code to ensure a more rigid flow and testable code-base.  
+
+\section{Storage}
+Databases used to house the necessary persistent information for the application.
+
+\subsection{MySQL}
+MySQL is an open-source relational database management system (DBMS). In Laravel, it is the default DBMS largely because of it's \textit{plug and play} nature. The only information being stored in the MySQL database is the caching layers as described in detail in the [insert section] section. The tables used are as follows:
+
+[Insert Tables]
+
+\subsection{BigQuery}
+Querying massive datasets can not only be time consuming but expensive without the right hardware, infrastructure and software. \textit{Google} alleviates this problem with \textit{BigQuery}, an incredibly fast cloud-based storage platform. It is Infrastructure as a Service (IaaS) that handles all the hard work of both creating and accessing large data sets. Using the processing power of Google's already existing infrastructure, a user can get up and running with BigQuery in a matter of minutes. BigQuery can be used via their web UI, command-line tool or the REST API using one of the many client libraries. 
+\par
+Five months ago, user /u/Stuck{\_}In{\_}the{\_}Matrix of reddit collected all Reddit submission data from 2006 to 2015. He had effectively collected 200 million submission objects, each with score data, author, title, self{\_}text, media tags and all the other attributes that are normally available via the Reddit API. The dataset complemented the Reddit comment corpus he released a couple months prior. When the data was initially made publically available, he released it as a torrent where developers interested in using it could download their own local copies of the data and process it according to their needs. Developers were all downloading the data for use either on their local machines or a cloud server. The problem with this is even with one of the most powerful desktop computers, loading the entire dataset into RAM was not feasible. Search times and joining (cross table) operations were expensive. Conveniently soon after the release of this torrent, one of the lead engineers of Google BigQuery, /u/fhoffa (Felipe Hoffa), uploaded the data to BigQuery and made the dataset publicly available. Each month, the dataset is updated with the latest information collected from the Reddit API.
+\par
+With the convenience of BigQuery, it is now possible to query gigabytes of history Reddit data in a matter of seconds. Listed below are a couple examples of queries, their sizes and the execution time.
+
+[Insert Examples]
+
+[Insert Facade talk]
 
 
+\section{phpRaw}
+The Reddit API has several endpoints. It is through this endpoints where a client can retrieve posts specific to a subreddit, post a comment, moderate their account and all other actions that are normally available through the consumable web interface. For a single use or specific focus, calling the specific endpoints explicitly works fine but this strategy quickly fails as needs grow. Due to the wide array of endpoint calls utilized, it was necessary to develop an API wrapper that allows convenient calls to the API. Such a wrapper already existed for Python, Java, C and a few other languages but not PHP.
+\par
+An open source wrapper was discovered on GitHub but was no longer maintained, was not written to comply with the latest API security requirements (OAuth2) and was missing nearly half of the endpoints. Building on the work done on this API wrapper, a successful implementation was built and is what \textit{Rally} utilizes and depends on for direct Reddit data access. The GitHub repository from the point at which it was forked and built on is linked in the appendix.
+\par 
+Listed below are a functions from phpRaw to give a feel for the wrapper.
+\\
+TODO - Examples
+\par
+phpRaw was then modified to serve as a standalone vendor service brought in through Laravel's default dependency manager \textit{Composer}. By extracting the wrapper to a separate module, updating and maintaining the endpoints is simple as they are changed over time.
 
 
 
