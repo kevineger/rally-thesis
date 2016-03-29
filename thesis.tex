@@ -34,6 +34,7 @@
 \newcommand{\dom}{\operatorname{dom}}
 \providecommand{\TT}[1]{\Theta\left(#1\right)} % big-Theta
 \providecommand{\OO}[1]{\mathcal{O}\left(#1\right)} % big-Oh
+\setlength{\parskip}{1em}
 % ===================================================================
 
 %Uncomment the next line if there are more than one appendix
@@ -77,23 +78,30 @@ Work on this thesis was widely facilitated with help from Dr. Ramon Lawrence thr
 % main body.
 
 % Now regular page numbering begins.
-\mainmatter
+\mainmatter\setlength{\parskip}{1em}
 
 % Parts are the largest structural units, but are optional.
 %\part{Thesis}
 
 % Chapters are the next main unit.
 \chapter{Introduction}
+High level overview and motivation for developing this thesis.
+
+\section{Reddit}
+Reddit is a a news and entertainment website whose content is sustained by members of the community. Users submit text posts or direct links similar to a typical forum setting. Registered users can vote on submissions bringing order to the posts yielding an ordered online bulletin board. Furthermore, what makes Reddit unique is that content is subsectioned into different areas of interest called ``subreddits''. Some of the top subreddits include \textit{movies}, \textit{funny}, \textit{AskReddit}, \textit{food} and \textit{news}. As of March 3rd, 2016 Reddit had 231,625,384 unique users a month viewing a total of 7,517,661,034 pages. The company was founded 10 years ago and has quickly become the most central place on the internet to partake in conversation or consume a wide array of content.
+
+\section{Motivation}
+For years data analytics has been used in many industries to give companies and organizations better business decisions and verification of their models and structures. Whether they are mining huge data sets, looking at specific use cases or aiming to prove or disprove a theory, companies and organizations alike aim to do one thing: identify and discover patterns, relationships and inferences that are not immediately apparent.
+\par
+An early motivator for this thesis was some existing technology for Twitter insights. The community-content driven nature of Twitter parallels that of Reddit. There has already been a lot of academic research and production level software released for Twitter data management, pattern identification and tracking. The existing infrastructure in the Twitter space can be largely replicated and modified to suit Reddit, an effort which this thesis focuses on starting.
+
+\chapter{Background}
 To best understand this thesis and the work done, it is necessary to first be introduced to the relevant technologies and key terms which will be heavily referenced and built upon.
 
 \section{Terms and Definitions}
 TODO
 
 \section{Reddit}
-A type of online community where users vote on content.
-
-\subsection{Overview}
-Reddit is a a news and entertainment website whose content is sustained by members of the community. Users submit text posts or direct links similar to a typical forum setting. Registered users can vote on submissions bringing order to the posts yielding an ordered online bulletin board. Furthermore, what makes Reddit unique is that content is subsectioned into different areas of interest called ``subreddits''. Some of the top subreddits include \textit{movies}, \textit{funny}, \textit{AskReddit}, \textit{food} and \textit{news}. As of March 3rd, 2016 Reddit had 231,625,384 unique users a month viewing a total of 7,517,661,034 pages. The company was founded 10 years ago and has quickly become the most central place on the internet to partake in conversation or consume a wide array of content.
 
 \subsection{History}
 The company was founded by two new graduates of the \textit{University of Virginia}, Steve Huffman and Alexis Ohanian, in June 2005 \citep{Guardian}. After a couple years of growth, Reddit's traffic exploded and the service went viral. The creators were quick to release Reddit Gold, which offered new features and usability improvements providing the company with a primary source of income.

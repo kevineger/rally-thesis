@@ -4,16 +4,18 @@
 \contentsline {chapter}{List of Figures}{v}{section*.4}
 \contentsline {chapter}{{Acknowledgements}}{vi}{chapter*.5}
 \contentsline {chapter}{\numberline {1}{Introduction}}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}{Terms and Definitions}}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}{Reddit}}{1}{section.1.2}
-\contentsline {subsection}{\numberline {1.2.1}{Overview}}{1}{subsection.1.2.1}
-\contentsline {subsection}{\numberline {1.2.2}{History}}{1}{subsection.1.2.2}
-\contentsline {subsection}{\numberline {1.2.3}{Community}}{2}{subsection.1.2.3}
-\contentsline {chapter}{\numberline {2}{Technical Stack}}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}{Laravel}}{3}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}{MVC}}{3}{subsection.2.1.1}
-\contentsline {section}{\numberline {2.2}{Storage}}{4}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}{MySQL}}{4}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}{BigQuery}}{4}{subsection.2.2.2}
-\contentsline {section}{\numberline {2.3}{phpRaw}}{5}{section.2.3}
-\contentsline {chapter}{{Bibliography}}{6}{chapter*.6}
+\contentsline {section}{\numberline {1.1}{Reddit}}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}{Motivation}}{1}{section.1.2}
+\contentsline {chapter}{\numberline {2}{Background}}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}{Terms and Definitions}}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}{Reddit}}{3}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}{History}}{3}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}{Community}}{3}{subsection.2.2.2}
+\contentsline {chapter}{\numberline {3}{Technical Stack}}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}{Laravel}}{5}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}{MVC}}{5}{subsection.3.1.1}
+\contentsline {section}{\numberline {3.2}{Storage}}{6}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}{MySQL}}{6}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}{BigQuery}}{6}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}{phpRaw}}{7}{section.3.3}
+\contentsline {chapter}{{Bibliography}}{9}{chapter*.6}
