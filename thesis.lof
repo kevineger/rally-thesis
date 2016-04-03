@@ -3,3 +3,12 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Example of Model}}{6}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Example of View}}{6}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Example of Controller}}{7}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Example of Repository}}{7}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces MySQL Database schema}}{8}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Query finding the best hours to post on Reddit}}{10}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Query finding the best hours to post on Reddit}}{11}{figure.3.7}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Registering the Google service provider}}{11}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Requiring phpRaw as a dependency in composer.}}{13}{figure.3.9}
