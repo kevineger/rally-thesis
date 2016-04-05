@@ -47,6 +47,7 @@
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage[T1]{fontenc}
+\usepackage{xparse}
 
 \lstset{	
 	language=PHP,
@@ -62,6 +63,10 @@
     keepspaces = true,
     keywordstyle = \bfseries,
     morekeywords={function,return},
+}
+
+\NewDocumentCommand{\sqlword}{v}{%
+\texttt{\textcolor{gray}{#1}}%
 }
 
 
@@ -352,6 +357,47 @@ $phpRaw->getHot('funny', 10);
 Requiring \textit{phpRaw} as a dependency for \textit{rally} in composer.}
 \label{fig:composer}
 \end{figure}
+
+\section{Clustering Script}
+\subsection{Python}
+[Insert chunk about python script]
+\subsection{Scipy}
+[Insert chunk about Scipy]
+
+\chapter{Algorithms and Methods}
+The sets of operations integral to the key components of \textit{Rally}.
+\section{Hierarchical Clustering}
+When observing an open environment, an equally interesting and powerful metric for how the community is distributed is with clustering. One of the biggest benefits of hierarchical clustering is that you don't need to already know the number of clusters in the data set. It is with hierarchical clustering that within a subreddit, we are able to detect sub-communities. Strategies for hierarchical clustering land within two groups: agglomerative and divisive. Agglomerative is a bottom up approach where each observation starts in it's own cluster and pairs are merged as you move up the hierarchy. Divisive is a top down approach where all observations begin in a single cluster and split recursively down throughout the hierarchy. 
+\par
+To best understand the hierarchical clustering process, we will begin by showing the end result in what is known as a dendogram. A clustering of users amongst the subreddit \textit{/r/movies} is shown as a dendogram in Figure \ref{fig:moviesdend}. The dendogram is a visualization in the form of a tree that shows the order and distances of merges throughout the hierarchical clustering. It can be understood as snapshots throughout the linkage of observations. On the x axis are labels representing numbers of samples (if in brackets) or specific samples (without brackets). On the y axis are the relative distances (using the 'ward' method described later). Beginning at the bottom of the lines (near the labels), the height of the horizontal joining lines tells us about the distance at which that labelled group merged with another label or cluster. 
+
+\begin{figure}[!htb]
+\includegraphics[width=\textwidth]{movies_dendogram.png}
+\caption[Dendogram of /r/movies]{
+A dendogram representing the hierarchical clustering amongst the subreddit \textit{/r/movies}.}
+\label{fig:moviesdend}
+\end{figure}
+
+\par
+For the example shown in Figure \ref{fig:moviesdend} there are 4265 samples (users) being processed. What is actually being shown is a truncated dendogram, showing only the last 12 merges. The small black dots along the vertical lines represent joins that happened prior the the final 12. Truncation is an incredibly useful tool when plotting dendograms. More often than not, we are only interested in the last few merges amongst the samples. The merge that carries the largest vertical distance will be the merge that attaches the most segregated groups. Again with the example in Figure \ref{fig:moviesdend} we can see three distinct groups being formed, identified by their green, red and teal colours.
+\par
+Before we start summarizing the process, it is sometimes easy to forget what variables map to. A list is provided here:
+\begin{itemize}
+\item{X: samples (n*m array), or data points or "singleton clusters"}
+\item{n: number of samples}
+\item{m: number of features}
+\item{Z: cluster linkage array}
+	\begin{itemize}
+	\item{Contains the hierarchical clustering information}
+	\end{itemize}
+\item{k: number of clusters}
+\end{itemize}
+\par
+
+\subsection{The Clustering Process}
+To begin the clustering, we first gather the necessary data from \textit{Google BigQuery}. The query retrieves the most recent 300 posts for the specified subreddit. A join is then made with the \texttt{link\_id} from the inner query and a \sqlword{UNION ALL} with the comment shard tables over the past 3 months. \textit{BigQuery} does not directly support the \sqlword{UNION ALL} syntax familiar to most sql languages, but instead supports comma separated tables wrapped in a \sqlword{SELECT *}.
+
+The "ward" method is one of several that can be used to calculate the distance between newly formed clusters.
 
 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
