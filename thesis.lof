@@ -14,3 +14,5 @@
 \contentsline {figure}{\numberline {3.9}{\ignorespaces Requiring phpRaw as a dependency in composer.}}{13}{figure.3.9}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Dendogram of /r/movies}}{15}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces BigQuery for retrieving clustering data}}{17}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Psuedocode for processing BigQuery data}}{17}{figure.4.3}

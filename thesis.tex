@@ -48,6 +48,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 \usepackage{xparse}
+\usepackage[]{algorithm2e}
 
 \lstset{	
 	language=PHP,
@@ -395,7 +396,45 @@ Before we start summarizing the process, it is sometimes easy to forget what var
 \par
 
 \subsection{The Clustering Process}
-To begin the clustering, we first gather the necessary data from \textit{Google BigQuery}. The query retrieves the most recent 300 posts for the specified subreddit. A join is then made with the \texttt{link\_id} from the inner query and a \sqlword{UNION ALL} with the comment shard tables over the past 3 months. \textit{BigQuery} does not directly support the \sqlword{UNION ALL} syntax familiar to most sql languages, but instead supports comma separated tables wrapped in a \sqlword{SELECT *}.
+To begin the clustering, we first gather the necessary data from \textit{Google BigQuery}. The query retrieves the most recent 300 posts for the specified subreddit. A join is then made with the \texttt{link\_id} from the inner query and a \sqlword{UNION ALL} with the comment shard tables over the past 3 months. \textit{BigQuery} does not directly support the \sqlword{UNION ALL} syntax familiar to most sql languages, but instead supports comma separated tables wrapped in a \sqlword{SELECT *}. After joining up the relations, user accounts that were deleted or made by an auto moderator are filtered out. The remaining authors are grouped by the \texttt{link\_id} and selected out by the number of times they commented on each link. The query as it is executed in the application can be seen in figure \ref{fig:clusterquery}. The query processes 9.95GB of data across a total of 4 tables and is completed between 5 and 10 seconds (depending on the subreddit under consideration).
+
+\begin{figure}[!htb]
+\begin{lstlisting}
+SELECT author, link_id, COUNT(link_id) as cnt 
+FROM ( 
+  SELECT * 
+  FROM 
+  [fh-bigquery:reddit_comments.2016_01], 
+  [fh-bigquery:reddit_comments.2015_12], 
+  [fh-bigquery:reddit_comments.2015_11] 
+)
+WHERE link_id IN ( 
+  SELECT posts.name 
+  FROM [fh-bigquery:reddit_posts.full_corpus_201512] AS posts 
+  WHERE posts.subreddit = (%subreddits) 
+  AND posts.num_comments > 0 
+  ORDER BY posts.created_utc DESC LIMIT 300 
+) 
+AND author != '[deleted]' 
+AND author != 'AutoModerator' 
+GROUP BY author, link_id 
+ORDER BY author
+\end{lstlisting}
+\caption[BigQuery for retrieving clustering data]{
+The query executed on \textit{BigQuery} to retrieve all cluster data.}
+\label{fig:clusterquery}
+\end{figure}
+
+Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:clusteralgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts however as mentioned later, future work could focus on coming up with a preprocessing check to determine the anticipated size of response data from \textit{BigQuery}.
+
+\begin{figure}[!htb]
+\begin{algorithm}[H]
+	\For{Each row in BigQuery response} \State {Do things} \EndFor
+\end{algorithm}
+\caption[Psuedocode for processing BigQuery data]{
+The psuedocode for processing the \textit{BigQuery} response data.}
+\label{fig:clusteralgo}
+\end{figure}
 
 The "ward" method is one of several that can be used to calculate the distance between newly formed clusters.
 

@@ -25,4 +25,4 @@
 \contentsline {chapter}{\numberline {4}{Algorithms and Methods}}{14}{chapter.4}
 \contentsline {section}{\numberline {4.1}{Hierarchical Clustering}}{14}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}{The Clustering Process}}{16}{subsection.4.1.1}
-\contentsline {chapter}{{Bibliography}}{17}{chapter*.7}
+\contentsline {chapter}{{Bibliography}}{18}{chapter*.7}
