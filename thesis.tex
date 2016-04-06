@@ -48,7 +48,7 @@
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 \usepackage{xparse}
-\usepackage[]{algorithm2e}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 
 \lstset{	
 	language=PHP,
@@ -427,10 +427,23 @@ The query executed on \textit{BigQuery} to retrieve all cluster data.}
 
 Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:clusteralgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts however as mentioned later, future work could focus on coming up with a preprocessing check to determine the anticipated size of response data from \textit{BigQuery}.
 
-\begin{figure}[!htb]
-\begin{algorithm}[H]
-	\For{Each row in BigQuery response} \State {Do things} \EndFor
+\begin{algorithm}
+\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
+\KwIn{A finite set $A=\{a_1, a_2, \ldots, a_n\}$ of integers}
+\KwOut{The largest element in the set}
+$max \gets a_1$\;
+\For{$i \gets 2$ \textbf{to} $n$} {
+  \If{$a_i > max$} {
+    $max \gets a_i$\;
+  }
+}
+\Return{$max$}\;
+\caption{{\sc Max} finds the maximum number}
+\label{algo:max}
 \end{algorithm}
+
+\begin{figure}[!htb]
+
 \caption[Psuedocode for processing BigQuery data]{
 The psuedocode for processing the \textit{BigQuery} response data.}
 \label{fig:clusteralgo}
