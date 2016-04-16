@@ -10,9 +10,9 @@
 \contentsline {figure}{\numberline {3.5}{\ignorespaces MySQL Database schema}}{8}{figure.3.5}
 \contentsline {figure}{\numberline {3.6}{\ignorespaces Query finding the best hours to post on Reddit}}{10}{figure.3.6}
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Query finding the best hours to post on Reddit}}{11}{figure.3.7}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Registering the Google service provider}}{11}{figure.3.8}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Requiring phpRaw as a dependency in composer.}}{13}{figure.3.9}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Registering the Google service provider}}{12}{figure.3.8}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Requiring phpRaw as a dependency in composer.}}{14}{figure.3.9}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Dendogram of /r/movies}}{15}{figure.4.1}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces BigQuery for retrieving clustering data}}{17}{figure.4.2}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Psuedocode for processing BigQuery data}}{17}{figure.4.3}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Dendogram of /r/movies}}{16}{figure.4.1}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces BigQuery for retrieving clustering data}}{18}{figure.4.2}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Preparing the \textit {BigQuery} response data for clustering}}{19}{figure.4.3}

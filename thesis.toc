@@ -17,12 +17,12 @@
 \contentsline {section}{\numberline {3.2}{Storage}}{8}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}{MySQL}}{8}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}{BigQuery}}{9}{subsection.3.2.2}
-\contentsline {subsubsection}{{Facades in Laravel with Google Services}}{9}{section*.6}
+\contentsline {subsubsection}{{Facades in Laravel with Google Services}}{11}{section*.6}
 \contentsline {section}{\numberline {3.3}{phpRaw}}{12}{section.3.3}
-\contentsline {section}{\numberline {3.4}{Clustering Script}}{13}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}{Python}}{13}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}{Scipy}}{13}{subsection.3.4.2}
-\contentsline {chapter}{\numberline {4}{Algorithms and Methods}}{14}{chapter.4}
-\contentsline {section}{\numberline {4.1}{Hierarchical Clustering}}{14}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}{The Clustering Process}}{16}{subsection.4.1.1}
-\contentsline {chapter}{{Bibliography}}{18}{chapter*.7}
+\contentsline {section}{\numberline {3.4}{Clustering Script}}{14}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}{Python}}{14}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}{Scipy}}{14}{subsection.3.4.2}
+\contentsline {chapter}{\numberline {4}{Algorithms and Methods}}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}{Hierarchical Clustering}}{15}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}{The Clustering Process}}{17}{subsection.4.1.1}
+\contentsline {chapter}{{Bibliography}}{20}{chapter*.7}

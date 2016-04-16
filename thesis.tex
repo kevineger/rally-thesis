@@ -70,6 +70,7 @@
 \texttt{\textcolor{gray}{#1}}%
 }
 
+\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
 \begin{document}
 
@@ -245,7 +246,7 @@ Conveniently soon after the release of this torrent, one of the lead engineers o
 With the convenience of BigQuery, it is now possible to query gigabytes of history Reddit data in a matter of seconds. Listed below are a few of the integral queries used in \textit{Rally}, their sizes and the execution time.
 
 % Best time to post on Reddit
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 SELECT subreddit, total, sub_hour, num_gte_3000
 FROM (
@@ -266,7 +267,7 @@ The BigQuery SQL for finding the best hours to post on Reddit. This query proces
 \end{figure}
 
 % Activity on Reddit over time
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 SELECT RIGHT('0'+STRING(peak),2)+'-'+subreddit, hour, c 
 FROM (
@@ -425,29 +426,48 @@ The query executed on \textit{BigQuery} to retrieve all cluster data.}
 \label{fig:clusterquery}
 \end{figure}
 
-Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:clusteralgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts however as mentioned later, future work could focus on coming up with a preprocessing check to determine the anticipated size of response data from \textit{BigQuery}.
+Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:responsealgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts however as mentioned later, future work could focus on coming up with a preprocessing check to determine the anticipated size of response data from \textit{BigQuery}.
 
-\begin{algorithm}
-\DontPrintSemicolon % Some LaTeX compilers require you to use \dontprintsemicolon instead
-\KwIn{A finite set $A=\{a_1, a_2, \ldots, a_n\}$ of integers}
-\KwOut{The largest element in the set}
-$max \gets a_1$\;
-\For{$i \gets 2$ \textbf{to} $n$} {
-  \If{$a_i > max$} {
-    $max \gets a_i$\;
-  }
-}
-\Return{$max$}\;
-\caption{{\sc Max} finds the maximum number}
-\label{algo:max}
-\end{algorithm}
-
-\begin{figure}[!htb]
-
-\caption[Psuedocode for processing BigQuery data]{
-The psuedocode for processing the \textit{BigQuery} response data.}
-\label{fig:clusteralgo}
+\begin{figure}[h]
+	\begin{algorithm}[H]
+		\SetKwComment{tcc}{// }
+		\SetAlgoLined
+		\Input{raw BigQuery table response}
+		\Output{n * m matrix of users and submissions with comment frequency values}
+   	 	\For{each row in response} 
+   	 	{
+   	 		\tcc{Save the frequency a user commented on a post}
+   	 		values\lbrack author\rbrack\lbrack linkid\rbrack = count\;
+      		\tcc{Save unique users}
+			\If{user has not been seen before}{
+				\tcc{Append username to users array}
+				users\lbrack\rbrack = user\; 
+			}
+			\If{link has not been seen before}{
+				\tcc{Append link to links array}
+				links\lbrack\rbrack = link\; 
+			}
+    		}
+    		\For{each user in users}
+    		{
+    			\For{each link in links}
+    			{
+    				\tcc{If a user has commented on a link}
+    				\eIf{values\lbrack user\rbrack has array key link} {
+    					\tcc{Set [user][link] = count}
+    					result\lbrack user\rbrack\lbrack link\rbrack = values\lbrack user\rbrack\lbrack link\rbrack\;
+    				}{
+    					result\lbrack user\rbrack\lbrack link\rbrack = 0;
+    				}
+    			}
+    		}
+    		return result\;
+    	\end{algorithm}
+\caption{Preparing the \textit{BigQuery} response data for clustering}
+\label{fig:responsealgo}
 \end{figure}
+
+Upon generating the X matrix, the results are dumped out to a json file with json encoding. The path to the json file is then passed along with a call to execute the python script.
 
 The "ward" method is one of several that can be used to calculate the distance between newly formed clusters.
 
