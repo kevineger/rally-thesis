@@ -70,6 +70,10 @@
 \texttt{\textcolor{gray}{#1}}%
 }
 
+\NewDocumentCommand{\inlinemathword}{v}{%
+\texttt{#1}%
+}
+
 \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
 \begin{document}
@@ -293,7 +297,7 @@ In web programming, quite often developers will need access to static references
 The facade class itself only needs to implement a single method \textit{getFacadeAccessor}. It is that method's job to define what to resolve from the container. Behind the scenes, the base facade class (which all facades must extend) makes use of a magic-method, \textit{\_\_callStatic()}, which defers calls from the facade to the resolved object. 
 
 % Registering the service provider
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 public function register()
 {
@@ -343,7 +347,7 @@ $phpRaw->getHot('funny', 10);
 \textit{phpRaw} was then modified to serve as a standalone vendor service brought in through Laravel's default dependency manager \textit{Composer}. By extracting the wrapper to a separate module, updating and maintaining the endpoints is simple as they are changed over time. Using the power of composer and package dependencies, by including the declaration as outlined in Figure \ref{fig:composer}, whenever composer is updated it automatically updates to the latest version of \textit{phpRaw}.
 
 % Composer.json for phpRaw
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 ...
 "repositories": [
@@ -373,7 +377,7 @@ When observing an open environment, an equally interesting and powerful metric f
 \par
 To best understand the hierarchical clustering process, we will begin by showing the end result in what is known as a dendogram. A clustering of users amongst the subreddit \textit{/r/movies} is shown as a dendogram in Figure \ref{fig:moviesdend}. The dendogram is a visualization in the form of a tree that shows the order and distances of merges throughout the hierarchical clustering. It can be understood as snapshots throughout the linkage of observations. On the x axis are labels representing numbers of samples (if in brackets) or specific samples (without brackets). On the y axis are the relative distances (using the 'ward' method described later). Beginning at the bottom of the lines (near the labels), the height of the horizontal joining lines tells us about the distance at which that labelled group merged with another label or cluster. 
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \includegraphics[width=\textwidth]{movies_dendogram.png}
 \caption[Dendogram of /r/movies]{
 A dendogram representing the hierarchical clustering amongst the subreddit \textit{/r/movies}.}
@@ -399,7 +403,7 @@ Before we start summarizing the process, it is sometimes easy to forget what var
 \subsection{The Clustering Process}
 To begin the clustering, we first gather the necessary data from \textit{Google BigQuery}. The query retrieves the most recent 300 posts for the specified subreddit. A join is then made with the \texttt{link\_id} from the inner query and a \sqlword{UNION ALL} with the comment shard tables over the past 3 months. \textit{BigQuery} does not directly support the \sqlword{UNION ALL} syntax familiar to most sql languages, but instead supports comma separated tables wrapped in a \sqlword{SELECT *}. After joining up the relations, user accounts that were deleted or made by an auto moderator are filtered out. The remaining authors are grouped by the \texttt{link\_id} and selected out by the number of times they commented on each link. The query as it is executed in the application can be seen in figure \ref{fig:clusterquery}. The query processes 9.95GB of data across a total of 4 tables and is completed between 5 and 10 seconds (depending on the subreddit under consideration).
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 SELECT author, link_id, COUNT(link_id) as cnt 
 FROM ( 
@@ -426,7 +430,7 @@ The query executed on \textit{BigQuery} to retrieve all cluster data.}
 \label{fig:clusterquery}
 \end{figure}
 
-Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:responsealgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts however as mentioned later, future work could focus on coming up with a preprocessing check to determine the anticipated size of response data from \textit{BigQuery}.
+Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:responsealgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts. Future work could focus on coming up with a preprocessing technique to predict the anticipated size of response data from \textit{BigQuery} and select an appropriate post number.
 
 \begin{figure}[h]
 	\begin{algorithm}[H]
@@ -467,10 +471,13 @@ Upon retrieving the data, the X matrix needs to be generated. As a reminder, in 
 \label{fig:responsealgo}
 \end{figure}
 
-Upon generating the X matrix, the results are dumped out to a json file with json encoding. The path to the json file is then passed along with a call to execute the python script.
+Upon generating the X matrix, the results are dumped out to a json encoded file. The path to the json file is then passed along with a call to execute the python script.
 
-The "ward" method is one of several that can be used to calculate the distance between newly formed clusters.
+Generating the linkage matrix Z in python with the help of \textit{scipy} is very straightforward. An \textit{(n-1)} by 4 matrix Z is returned. At the \textit{i}-th iteration, clusters with indices \textit{Z[i, 0]} and \textit{Z[i, 1]} are combined to form cluster \textit{n+i}. A cluster with an index less than n corresponds to one of the n original observations. The distance between clusters \textit{Z[i, 0]} and \textit{Z[i, 1]} is given by \textit{Z[i, 2]}. The fourth value \textit{Z[i, 3]} represents the number of original observations in the newly formed cluster. The algorithm starts with a forest of clusters. When two clusters \textit{s} and \textit{t} from this forest are combined in to a single cluster \textit{u}, \textit{s} and \textit{t} are removed from the forest and \textit{u} is added to the forest. The algorithm is complete when only one cluster remains in the forest and this cluster becomes the root. A distance matrix is maintained at each iteration. 
 
+The \textit{d[i,j]} entry corresponds to the distance between cluster \textit{i} and \textit{j} in the original forest. At each iteration, the algorithm must update the distance matrix to reflect the distance of the newly formed cluster \textit{u} with the remaining clusters in the forest.
+
+There are multiple methods for calculating the distance between newly formed clusters \textit{u} and \textit{v}. We elect to use the ward method. Suppose there are |u| original observations u[0],...,u[|u|-1] in cluster u and |v| original objects v[0],...,v[|v|-1] in cluster v. Recall s and t are combined to form cluster u. Let v be any remaining cluster in the forest that is not u.
 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
 \pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}
