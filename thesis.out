@@ -17,11 +17,14 @@
 \BOOKMARK [1][-]{section.3.2}{3.2 Storage}{chapter.3}% 17
 \BOOKMARK [2][-]{subsection.3.2.1}{3.2.1 MySQL}{section.3.2}% 18
 \BOOKMARK [2][-]{subsection.3.2.2}{3.2.2 BigQuery}{section.3.2}% 19
-\BOOKMARK [1][-]{section.3.3}{3.3 phpRaw}{chapter.3}% 20
-\BOOKMARK [1][-]{section.3.4}{3.4 Clustering Script}{chapter.3}% 21
-\BOOKMARK [2][-]{subsection.3.4.1}{3.4.1 Python}{section.3.4}% 22
-\BOOKMARK [2][-]{subsection.3.4.2}{3.4.2 Scipy}{section.3.4}% 23
-\BOOKMARK [0][-]{chapter.4}{4 Algorithms and Methods}{}% 24
-\BOOKMARK [1][-]{section.4.1}{4.1 Hierarchical Clustering}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 The Clustering Process}{section.4.1}% 26
-\BOOKMARK [0][-]{chapter*.7}{Bibliography}{}% 27
+\BOOKMARK [1][-]{section.3.3}{3.3 Python}{chapter.3}% 20
+\BOOKMARK [2][-]{subsection.3.3.1}{3.3.1 Scipy}{section.3.3}% 21
+\BOOKMARK [2][-]{subsection.3.3.2}{3.3.2 Matplotlib}{section.3.3}% 22
+\BOOKMARK [0][-]{chapter.4}{4 Algorithms and Methods}{}% 23
+\BOOKMARK [1][-]{section.4.1}{4.1 Hierarchical Clustering}{chapter.4}% 24
+\BOOKMARK [2][-]{subsection.4.1.1}{4.1.1 The Clustering Process}{section.4.1}% 25
+\BOOKMARK [1][-]{section.4.2}{4.2 Image Classification}{chapter.4}% 26
+\BOOKMARK [0][-]{chapter.5}{5 Implementation}{}% 27
+\BOOKMARK [1][-]{section.5.1}{5.1 phpRaw}{chapter.5}% 28
+\BOOKMARK [1][-]{section.5.2}{5.2 RallySearch}{chapter.5}% 29
+\BOOKMARK [0][-]{chapter*.7}{Bibliography}{}% 30

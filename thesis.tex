@@ -322,70 +322,28 @@ The point of registering a facade may at times seem convoluted and unnecessary. 
   \item Explicit declaration defines what the class needs and what the class does
 \end{itemize}
 
-\section{phpRaw}
-The Reddit API has several endpoints. It is through these endpoints where a client can retrieve posts specific to a subreddit, post a comment, moderate their account and all other actions that are normally available through the consumable web interface. For a single use or specific focus, calling the endpoints explicitly with cURL (or another client-side URL transfer) works fine but this strategy quickly fails as needs grow. Due to the wide array of endpoint calls utilized, it was necessary to develop an API wrapper that allows convenient calls to the API. Such a wrapper already existed for Python, Java, C and a few other languages but not PHP.
-\par
-An open source wrapper was discovered on GitHub but was no longer maintained, was not written to comply with the latest API security requirements (OAuth2) and was missing nearly half of the endpoints. Building on the work done on this API wrapper, a successful implementation was built and is what \textit{Rally} utilizes and depends on for direct Reddit data access. The GitHub repository from the point at which it was forked and built on is linked in the appendix.
-\par 
-Listed below are a functions from \textit{phpRaw} to give a feel for the wrapper.
-% Get the user submitted data
-\begin{center}
-Get the user submitted data.
-\end{center}
-\begin{lstlisting}
-$phpRaw->getUserSubmitted($user, $limit = 25, $after = null);
-\end{lstlisting}
-
-% Get the top 10 hottest listings for a specified subreddit
-\begin{center}
-Get the top 10 hottest listings for a specified subreddit.
-\end{center}
-\begin{lstlisting}
-$phpRaw->getHot('funny', 10);
-\end{lstlisting}
-\par
-\textit{phpRaw} was then modified to serve as a standalone vendor service brought in through Laravel's default dependency manager \textit{Composer}. By extracting the wrapper to a separate module, updating and maintaining the endpoints is simple as they are changed over time. Using the power of composer and package dependencies, by including the declaration as outlined in Figure \ref{fig:composer}, whenever composer is updated it automatically updates to the latest version of \textit{phpRaw}.
-
-% Composer.json for phpRaw
-\begin{figure}[H]
-\begin{lstlisting}
-...
-"repositories": [
-	{
-		"name": "kevin/phpRAW",
-		"type": "vcs",
-		"url": "https://github.com/kevineger/phpRAW"
-	}
-],
-...
-\end{lstlisting}
-\caption[Requiring phpRaw as a dependency in composer.]{
-Requiring \textit{phpRaw} as a dependency for \textit{rally} in composer.}
-\label{fig:composer}
-\end{figure}
-
-\section{Clustering Script}
-\subsection{Python}
-[Insert chunk about python script]
+\section{Python}
 \subsection{Scipy}
 [Insert chunk about Scipy]
+\subsection{Matplotlib}
+[Insert chunk about Matplotlib]
 
 \chapter{Algorithms and Methods}
 The sets of operations integral to the key components of \textit{Rally}.
 \section{Hierarchical Clustering}
 When observing an open environment, an equally interesting and powerful metric for how the community is distributed is with clustering. One of the biggest benefits of hierarchical clustering is that you don't need to already know the number of clusters in the data set. It is with hierarchical clustering that within a subreddit, we are able to detect sub-communities. Strategies for hierarchical clustering land within two groups: agglomerative and divisive. Agglomerative is a bottom up approach where each observation starts in it's own cluster and pairs are merged as you move up the hierarchy. Divisive is a top down approach where all observations begin in a single cluster and split recursively down throughout the hierarchy. 
 \par
-To best understand the hierarchical clustering process, we will begin by showing the end result in what is known as a dendogram. A clustering of users amongst the subreddit \textit{/r/movies} is shown as a dendogram in Figure \ref{fig:moviesdend}. The dendogram is a visualization in the form of a tree that shows the order and distances of merges throughout the hierarchical clustering. It can be understood as snapshots throughout the linkage of observations. On the x axis are labels representing numbers of samples (if in brackets) or specific samples (without brackets). On the y axis are the relative distances (using the 'ward' method described later). Beginning at the bottom of the lines (near the labels), the height of the horizontal joining lines tells us about the distance at which that labelled group merged with another label or cluster. 
+To best understand the hierarchical clustering process, we will begin by showing the end result in what is known as a dendrogram. A clustering of users amongst the subreddit \textit{/r/movies} is shown as a dendrogram in Figure \ref{fig:moviesdend}. The dendrogram is a visualization in the form of a tree that shows the order and distances of merges throughout the hierarchical clustering. It can be understood as snapshots throughout the linkage of observations. On the x axis are labels representing numbers of samples (if in brackets) or specific samples (without brackets). On the y axis are the relative distances (using the 'ward' method described later). Beginning at the bottom of the lines (near the labels), the height of the horizontal joining lines tells us about the distance at which that labelled group merged with another label or cluster. 
 
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{movies_dendogram.png}
-\caption[Dendogram of /r/movies]{
-A dendogram representing the hierarchical clustering amongst the subreddit \textit{/r/movies}.}
+\caption[Dendrogram of /r/movies]{
+A dendrogram representing the hierarchical clustering amongst the subreddit \textit{/r/movies}.}
 \label{fig:moviesdend}
 \end{figure}
 
 \par
-For the example shown in Figure \ref{fig:moviesdend} there are 4265 samples (users) being processed. What is actually being shown is a truncated dendogram, showing only the last 12 merges. The small black dots along the vertical lines represent joins that happened prior the the final 12. Truncation is an incredibly useful tool when plotting dendograms. More often than not, we are only interested in the last few merges amongst the samples. The merge that carries the largest vertical distance will be the merge that attaches the most segregated groups. Again with the example in Figure \ref{fig:moviesdend} we can see three distinct groups being formed, identified by their green, red and teal colours.
+For the example shown in Figure \ref{fig:moviesdend} there are 4265 samples (users) being processed. What is actually being shown is a truncated dendrogram, showing only the last 12 merges. The small black dots along the vertical lines represent joins that happened prior the the final 12. Truncation is an incredibly useful tool when plotting dendrograms. More often than not, we are only interested in the last few merges amongst the samples. The merge that carries the largest vertical distance will be the merge that attaches the most segregated groups. Again with the example in Figure \ref{fig:moviesdend} we can see three distinct groups being formed, identified by their green, red and teal colours.
 \par
 Before we start summarizing the process, it is sometimes easy to forget what variables map to. A list is provided here:
 \begin{itemize}
@@ -432,7 +390,7 @@ The query executed on \textit{BigQuery} to retrieve all cluster data.}
 
 Upon retrieving the data, the X matrix needs to be generated. As a reminder, in the matrix there are n samples and m features. Our samples are authors of comments on listings and our features are each of the listings. Outlined in figure \ref{fig:responsealgo} is the algorithm for processing the raw \textit{BigQuery} response in to a usable matrix. Because the matrices can become very large in size, we are currently limiting the data gathered by using only the most recent 300 posts. Future work could focus on coming up with a preprocessing technique to predict the anticipated size of response data from \textit{BigQuery} and select an appropriate post number.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{algorithm}[H]
 		\SetKwComment{tcc}{// }
 		\SetAlgoLined
@@ -477,7 +435,106 @@ Generating the linkage matrix Z in python with the help of \textit{scipy} is ver
 
 The \textit{d[i,j]} entry corresponds to the distance between cluster \textit{i} and \textit{j} in the original forest. At each iteration, the algorithm must update the distance matrix to reflect the distance of the newly formed cluster \textit{u} with the remaining clusters in the forest.
 
-There are multiple methods for calculating the distance between newly formed clusters \textit{u} and \textit{v}. We elect to use the ward method. Suppose there are |u| original observations u[0],...,u[|u|-1] in cluster u and |v| original objects v[0],...,v[|v|-1] in cluster v. Recall s and t are combined to form cluster u. Let v be any remaining cluster in the forest that is not u.
+There are multiple methods for calculating the distance between newly formed clusters \textit{u} and \textit{v}. We elect to use the ward method. Suppose there are |u| original observations u[0],...,u[|u|-1] in cluster u and |v| original objects v[0],...,v[|v|-1] in cluster v. Recall s and t are combined to form cluster u. Let v be any remaining cluster in the forest that is not u. Given these definitions for observations and objects, the ward method calculates distance between the newly formed cluster u and v as follows in equation \ref{warddistance}. Where u is the newly joined cluster consisting of clusters s and t, v is an unused cluster in the forest, T = |v| + |s| + |t|.
+
+\begin{equation}
+\label{warddistance}
+\sqrt{\frac{|v| + |s|}{T}d(v,s)^2 + \frac{|v| + |t|}{T}d(v,t)^2 - \frac{|v|}{T}d(s,t)^2}
+\end{equation}
+
+The final piece of the puzzle is vizualizing the results using a dendrogram as introduced at the beginning of this section in Figure \ref{fig:moviesdend}. As homage to the simplicity the Python package matplotlib makes this process, the full code used to vizualize the linkage matrix is outlined in Figure \ref{fig:matplotlibdend}. As we can see, by simply specifying title, label, turning parameters and p (the number of final merges to show), we produce an intuitive dendrogram with clear colour and stage distinction.
+
+\begin{figure}[H]
+\begin{lstlisting}
+plt.title('Hierarchical Clustering Dendrogram (truncated)')
+plt.xlabel('sample index or (cluster size)')
+plt.ylabel('distance')
+plt.gcf().subplots_adjust(bottom=0.15)
+dendrogram(
+        Z,
+        truncate_mode='lastp',  # show only the last p merged clusters
+        p=12,  # show only the last p merged clusters
+        leaf_rotation=90.,
+        leaf_font_size=12.,
+        show_contracted=True,  # to get a distribution impression in truncated branches
+)
+# plt.show()
+plt.savefig('/your/file/location/cluster.png')
+\end{lstlisting}
+\caption[Drawing the dendrogram using matplotlib]{
+Drawing the dendrogram using matplotlib.}
+\label{fig:matplotlibdend}
+\end{figure}
+
+To summarize the results of the seemingly rigorous process outlined above, a brief list follows:
+\begin{itemize}
+\item{horizontal lines are cluster merges}
+\item{vertical lines tell you which clusters/labels were part of merge forming that new cluster}
+\item{heights of the horizontal lines tell you about the distance that needed to be "bridged" to form the new cluster}
+\end{itemize}
+It is the distance jumps and gaps in the dendrogram that are of value when interpreting the data. When the jump is large, it indicates that two groups are being merged together that maybe shouldn't be merged. Or in other words: we have identified two potentially unique groups that form independent clusters.
+
+\section{Image Classification}
+As discussed in the implementation chapter, image recognition was employed to effectively automate and scale the labelling of media content submitted to Reddit.
+\par
+Human brains make vision seem very trivial, it doesn't take much effort for humans to distinguish between a jar of alphagetti and a wasps nest (a seemingly very random example but proved to actually be a difficult task). But these are very hard problems to solve with a computer, they only seem easy because our brains are incredibly good and understanding visual queues. 
+\par
+In the last few years the field of machine learning has made tremendous progress on addressing these difficult problems. In particular, deep convolutional neural networks can achieve reasonable performance on hard visual recognition tasks. Often matching or exceeding human performance in some domains \citep{TensorFlow}.
+\par
+To classify images with labels, a first attempt was made using Google TensorFlow, the recently open sourced machine learning toolkit by Google. In particular, we focused on implementing and leveraging the power of Inception-V3 \citep{DBLP:journals/corr/SzegedyVISW15} - the newest model for identifying higher level features into classes.
+\par
+TensorFlow is a very complex API for programmers to use either CPU, GPU or in some cases both (using CUDA) devices. The barrier to entry is quite high but upon learning the flow of data and architecture of the infrastructure is a very powerful tool. We will not go in to detail on the implementation as it is not relevant to the underlying use.
+\par
+Upon implementing the image recognition class using TensorFlow, an API was built that allowed for convenient and modular calls to classify images sent along as POST data. This system was optimal as it allowed for independent testing and debugging. The major downfall was the lack of speed with the implementation for analysing the image. To reduce the computation time, CUDA was used and the algorithm was altered to run in parallel on a GPU. The main struggle with this implementation was working with the TensorFlow API on a GPU that did not support the latest version of CUDA, which was the only version TensorFlow is currently (as of April 2016) targeting. 
+\par
+When the GPU version of the image classification was finalized and tested, computation time was cut in half but it still took anywhere between 2 and 6 seconds to analyse a single image. The results of the classification were also dissatisfying as it only achieved an accuracy of roughly 60\%. It was difficult not to give in to the sunk cost of sticking with an approach that was built over the course of a month however as discussed in the implementation section, it was undoubtedly the correct choice to abandon TensorFlow.
+
+\chapter{Implementation}
+Turning the technology into a plan and executing.
+\section{phpRaw}
+The Reddit API has several endpoints. It is through these endpoints where a client can retrieve posts specific to a subreddit, post a comment, moderate their account and all other actions that are normally available through the consumable web interface. For a single use or specific focus, calling the endpoints explicitly with cURL (or another client-side URL transfer) works fine but this strategy quickly fails as needs grow. Due to the wide array of endpoint calls utilized, it was necessary to develop an API wrapper that allows convenient calls to the API. Such a wrapper already existed for Python, Java, C and a few other languages but not PHP.
+\par
+An open source wrapper was discovered on GitHub but was no longer maintained, was not written to comply with the latest API security requirements (OAuth2) and was missing nearly half of the endpoints. Building on the work done on this API wrapper, a successful implementation was built and is what \textit{Rally} utilizes and depends on for direct Reddit data access. The GitHub repository from the point at which it was forked and built on is linked in the appendix.
+\par 
+Listed below are a functions from \textit{phpRaw} to give a feel for the wrapper.
+% Get the user submitted data
+\begin{center}
+Get the user submitted data.
+\end{center}
+\begin{lstlisting}
+$phpRaw->getUserSubmitted($user, $limit = 25, $after = null);
+\end{lstlisting}
+
+% Get the top 10 hottest listings for a specified subreddit
+\begin{center}
+Get the top 10 hottest listings for a specified subreddit.
+\end{center}
+\begin{lstlisting}
+$phpRaw->getHot('funny', 10);
+\end{lstlisting}
+\par
+\textit{phpRaw} was then modified to serve as a standalone vendor service brought in through Laravel's default dependency manager \textit{Composer}. By extracting the wrapper to a separate module, updating and maintaining the endpoints is simple as they are changed over time. Using the power of composer and package dependencies, by including the declaration as outlined in Figure \ref{fig:composer}, whenever composer is updated it automatically updates to the latest version of \textit{phpRaw}.
+
+% Composer.json for phpRaw
+\begin{figure}[H]
+\begin{lstlisting}
+...
+"repositories": [
+	{
+		"name": "kevin/phpRAW",
+		"type": "vcs",
+		"url": "https://github.com/kevineger/phpRAW"
+	}
+],
+...
+\end{lstlisting}
+\caption[Requiring phpRaw as a dependency in composer.]{
+Requiring \textit{phpRaw} as a dependency for \textit{rally} in composer.}
+\label{fig:composer}
+\end{figure}
+
+\section{RallySearch}
+this is rallysearch
 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
 \pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}

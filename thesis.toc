@@ -18,11 +18,14 @@
 \contentsline {subsection}{\numberline {3.2.1}{MySQL}}{8}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}{BigQuery}}{9}{subsection.3.2.2}
 \contentsline {subsubsection}{{Facades in Laravel with Google Services}}{11}{section*.6}
-\contentsline {section}{\numberline {3.3}{phpRaw}}{12}{section.3.3}
-\contentsline {section}{\numberline {3.4}{Clustering Script}}{14}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}{Python}}{14}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}{Scipy}}{14}{subsection.3.4.2}
-\contentsline {chapter}{\numberline {4}{Algorithms and Methods}}{15}{chapter.4}
-\contentsline {section}{\numberline {4.1}{Hierarchical Clustering}}{15}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}{The Clustering Process}}{17}{subsection.4.1.1}
-\contentsline {chapter}{{Bibliography}}{21}{chapter*.7}
+\contentsline {section}{\numberline {3.3}{Python}}{12}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}{Scipy}}{12}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}{Matplotlib}}{13}{subsection.3.3.2}
+\contentsline {chapter}{\numberline {4}{Algorithms and Methods}}{14}{chapter.4}
+\contentsline {section}{\numberline {4.1}{Hierarchical Clustering}}{14}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}{The Clustering Process}}{16}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}{Image Classification}}{21}{section.4.2}
+\contentsline {chapter}{\numberline {5}{Implementation}}{23}{chapter.5}
+\contentsline {section}{\numberline {5.1}{phpRaw}}{23}{section.5.1}
+\contentsline {section}{\numberline {5.2}{RallySearch}}{24}{section.5.2}
+\contentsline {chapter}{{Bibliography}}{25}{chapter*.7}
