@@ -27,4 +27,9 @@
 \BOOKMARK [0][-]{chapter.5}{5 Implementation}{}% 27
 \BOOKMARK [1][-]{section.5.1}{5.1 phpRaw}{chapter.5}% 28
 \BOOKMARK [1][-]{section.5.2}{5.2 RallySearch}{chapter.5}% 29
-\BOOKMARK [0][-]{chapter*.7}{Bibliography}{}% 30
+\BOOKMARK [2][-]{subsection.5.2.1}{5.2.1 Overview}{section.5.2}% 30
+\BOOKMARK [2][-]{subsection.5.2.2}{5.2.2 Public Reception}{section.5.2}% 31
+\BOOKMARK [2][-]{subsection.5.2.3}{5.2.3 Analytics}{section.5.2}% 32
+\BOOKMARK [2][-]{subsection.5.2.4}{5.2.4 Open Source}{section.5.2}% 33
+\BOOKMARK [2][-]{subsection.5.2.5}{5.2.5 Maintainability and Moving Forward}{section.5.2}% 34
+\BOOKMARK [0][-]{chapter*.7}{Bibliography}{}% 35
