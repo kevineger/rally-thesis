@@ -49,6 +49,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{xparse}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{csvsimple}
 
 \lstset{	
 	language=PHP,
@@ -533,25 +534,115 @@ Requiring \textit{phpRaw} as a dependency for \textit{rally} in composer.}
 \label{fig:composer}
 \end{figure}
 
+\section{Rally}
+Rally combines user statistics, big data, subreddit analysis and RallySearch into one convenient location.
+\subsection{User Statistics}
+On Reddit, users have the ability to view their recent activity (comments, submissions and saved content) and link/comment karma scores. Reddit serves this information in a similar fashion to how they display submissions on their site. This technique is effective for listing out history of comments and submissions but it proves ineffective for quickly interpreting account details. To alleviate this lack of accessibility, upon entering a user name
+
 \section{RallySearch}
 RallySearch is an alternative way of consuming Reddit. Users of Reddit are very limited by the existing search functionality. Though there exists a search bar, it is incredibly ineffective and displays close to no results as intended. Reddit developers have expressed interest in improving the functionality but have not disclosed any immediate plans to do so. This portion of the thesis aims to offer an alternative to browsing Reddit by it's content in a visually pleasing and simple fashion. The name of this standalone service has been dubbed \textit{RallySearch} and as discussed later has been launched and received by the Reddit community.
 
 \includegraphics[width=\textwidth]{rallysearch_screenshot.png}
 
 \subsection{Overview}
-The overall point of RallySearch is to provide users with the opportunity to search Reddit by it's content - the physically linked images, videos, gifs and articles. Reddit's existing flow for browsing content does not give users the ability to search site-wide for all posts consisting of a specific object. For example, if a user wanted to view all posts pertaining to dogs and cats, they would have to manually search through all the subreddits. This may or may not contain the desired content and the only option they would have left is to perform a Google search which is even more inefficient and guarantees no accuracy. Using RallySearch, labels can easily be specified using the search bar at the top and the page instantly loads all existing classified posts.
+The overall point of RallySearch is to provide users with the opportunity to search Reddit by it's content - the physically linked images, videos, gifs and articles. Reddit's existing flow for browsing content does not give users the ability to search site-wide for all posts consisting of a specific object. For example, if a user wanted to view all posts pertaining to dogs and cats, they would have to manually search through all the subreddits. This may or may not contain the desired content and the only option they would have left is to perform a Google search which is even more inefficient and guarantees no degree of accuracy. Using RallySearch, labels can easily be specified using the search bar at the top and the page instantly loads all existing classified posts.
 
 When a user first lands on the site, they are confronted with a page already populated with cards which represent posts. A card consists of the post preview image, title, labels for the image (from image recognition) as well as a few other details and options for navigation discussed later in the UI section.
 
 In summary, top media posts on Reddit are sent through Google's Cloud Vision (Image recognition API) and results are cached. Upon giving each image (or preview in the case of videos and gifs) labels, users can easily view similar content by selecting the desired tag(s). 
 
+\subsection{Technical Overview}
+RallySearch is a slim and highly maintainable web project. It uses two external services, phpRaw (Reddit API wrapper created for this project discussed previously) and Google Cloud Vision. The technical workings of RallySearch can be divided in to two main domains: building the service and consuming the service.
+\subsubsection{Building the Service}
+The Google Cloud Vision API enables developers to understand the content of an image by powerful machine learning models in an easy to use REST API. Images are quickly classified into thousands of categories. Individual objects and faces can be detected within an image. The broad set of objects in images are categorized and help improve the Vision API over time as new concepts are introduced and accuracy is improved. They key feature of the API that RallySearch uses is label detection. With it, broad sets of categories are detected within in image ranging from dog breeds to wedding dresses.
+\par
+RallySearch is written with full modularity in mind. This is important because APIs are always subject to change over time and it incorporates two (phpRaw and Cloud Vision). The accomplish this, a Laravel Job is written which runs on a schedule. The job is executed hourly and at a high level, does the following:
+\begin{itemize}
+\item{Creates a new collection}
+	\begin{itemize}
+	\item{Laravel iterable object that wraps PHP array}
+	\end{itemize}
+\item{Retrieves the \textit{hottest} 100 posts on Reddit}
+\item{Retrieves the \textit{top} 100 posts on Reddit}
+	\begin{itemize}
+	\item{Daily}
+	\item{Weekly}
+	\item{Monthly}
+	\item{Yearly}
+	\item{All time}	
+	\end{itemize}
+\item{Creates Annotation objects for each of the new listings}
+	\begin{itemize}
+	\item{Checks against database if record already exists}
+	\item{Stores unique Reddit id, post url, image url (preview), post title, subreddit post was submitted to}
+	\end{itemize}
+\item{Labels each of the Annotations}
+	\begin{itemize}
+	\item{Sets labelling parameters (feature type: label and max results: 10}
+	\item{Builds batch annotation image request object}
+	\item{Downloads the image to be analyzed and encodes in base 64 to be sent with the request(s)}
+	\item{Sends request and saves response}
+	\item{Saves labels for each image, creating new Label objects when needed and reusing existing ones when applicable (An Annotation has many Labels and a Label belongs to many Annotations}
+	\end{itemize}
+\end{itemize}
+
+The code for this process is slightly too long to include in the thesis but is easily accessible in the repository listed in the bibliography.
+
+\subsubsection{Consuming the Service}
+The main motivation for creating RallySearch was to offer a convenient and easy to use way of browsing Reddit. Keying in on this motivation, it was crucial users were faced with an interface that was easy to adopt and was non intrusive. More on the details of the interface can be found in the UI section, here we will go over a typical users use-case of the site.
+\par
+The service itself really only exists on one page, the content page. Users can browse all labelled posts by scrolling through cards and advancing through pages. For a more refined experience, a user can enter a single or multiple tags in the search bar at the top. The bar allows users to only select from a predefined list (labels which exist in the database). Upon clicking or selecting a label(s), the site loads up the appropriate content.
+\par
+Users are free to navigate their desired content, expand the preview for a larger view of the media and select similar tags by manually selecting those on a post or by using the "Similar" button.
+
 \subsection{Public Reception}
+Because RallySearch is a service for the community and arguably \textit{built by the community} (all the content is theirs), there was a strong desire to push the service live and generate feedback.
+\par
+RallySearch was made publicly available and posted to a few subreddits intended for developers and enthusiasts to give feedback and test the service. Subreddits the site was posted to include: /r/Frontend - a subreddit for front end web developers who want to move the web forward or want to learn how, /r/UsefulWebsites - a compilation of useful websites and /r/design\_critiques - a subreddit to receive critiques on a design. Over the course of just one day, submissions on /r/Frontend and /r/UsefulWebsites made it to the top submission of both subreddits and are amongst some of the top posts there over the last year. Though these subreddits are not heavily trafficked, it was a noteworthy accomplishment due the the highly opinionated, dogmatic and domineering nature of the respectful subreddits.
+\par
+Rather than listing all of the comments, below is a list of a few of the top comments (most upvoted) and most helpful comments that were reflected with changes and improvements.
+\begin{itemize}
+\item{``To be honest the accuracy of the tags blows my mind'' - /u/r\_park}
+\item{``If I'm scrolled down the page, selecting the "similar" button appears to do nothing if it doesn't happen to populate more content. It also seems unintuitive that it adds more tags to my existing tags. This interaction is overall a good idea but a little unclear in terms of what it actually does.'' - /u/wayspurrchen}
+\item{``The content hierarchy for the videos doesn't make a lot of sense/isn't very useful: http://i.imgur.com/RWdyvDL.png As a casual user, I'm unlikely to ever care about the permalink, and I'm most likely to care about the title. The title should also be clickable to take me to reddit. I swapped things around a bit: http://i.imgur.com/1y451Q7.png You could even put something else there like the score for that subreddit, number of comments, etc.'' - /u/wayspurrchen}
+\item{``Overall this is a really killer app. I can't wait to see you polish it! :)'' - /u/wayspurrchen}
+\item{``You are my new hero.'' - /u/ChaosElephant}
+\item{``This is great - looks nice as well. Awesome job!
+My only critique at the moment would be to have the full title reveal in some sort of tooltip or something, even just as a title attribute tooltip. At first I didn't notice the expand, or you may just think it expands the photo. It would be nice to see the full title without clicking.'' - /u/hidanielle}
+\end{itemize}
+
+It was great to get the service out there for a non-subjective set of eyes to critique, advise and shape it. Beyond having other Reddit users test the site, friends and family were also good help in offering advice and feedback from a new user (unfamiliar with Reddit) perspective. Though proper and documented user testing was not conducted, key takeaways with this group include:
+\begin{itemize}
+\item{Hooking up links that were expected to direct somewhere but did not initially.}
+\item{Reorganizing the card structure}
+\item{Altering the navigation menu for a more responsive feel}
+\end{itemize}
 
 \subsection{Analytics}
+Google Analytics were implemented and utilized upon launch. This allowed for the understanding of consumer behaviour, gathering insights, tracking usage numbers and analysing performance of the site. Data tidbits from the analytics are outlined here:
+\begin{itemize}
+\item{736 unique visitors in the first 24 hours}
+\item{0:56 seconds average session duration}
+\end{itemize}
+\begin{table}[H]
+\begin{center}
+\csvautotabular{data/osandbrowser.csv}
+\caption{Operating system and browser of users}\label{tab:osandbrowser}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+\csvautotabular{data/country.csv}
+\caption{Countries of users accessing the site}\label{tab:country}
+\end{center}
+\end{table}
 
 \subsection{Open Source}
+RallySearch is fully open source. The source code is available publicly on GitHub. There has already been a bit of interest with members of the community and the repository has had three stars from developers. The software is MIT licensed. 
 
-\subsection{Maintainability and Moving Forward}
+\subsection{Moving Forward}
+[TODO: This section]
 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
 \pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}

@@ -27,10 +27,14 @@
 \contentsline {section}{\numberline {4.2}{Image Classification}}{21}{section.4.2}
 \contentsline {chapter}{\numberline {5}{Implementation}}{23}{chapter.5}
 \contentsline {section}{\numberline {5.1}{phpRaw}}{23}{section.5.1}
-\contentsline {section}{\numberline {5.2}{RallySearch}}{24}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}{Overview}}{25}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}{Public Reception}}{26}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}{Analytics}}{26}{subsection.5.2.3}
-\contentsline {subsection}{\numberline {5.2.4}{Open Source}}{26}{subsection.5.2.4}
-\contentsline {subsection}{\numberline {5.2.5}{Maintainability and Moving Forward}}{26}{subsection.5.2.5}
-\contentsline {chapter}{{Bibliography}}{27}{chapter*.7}
+\contentsline {section}{\numberline {5.2}{Rally}}{24}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}{User Statistics}}{24}{subsection.5.2.1}
+\contentsline {section}{\numberline {5.3}{RallySearch}}{25}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}{Overview}}{26}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}{Technical Overview}}{26}{subsection.5.3.2}
+\contentsline {subsubsection}{{Building the Service}}{26}{section*.7}
+\contentsline {subsubsection}{{Consuming the Service}}{28}{section*.8}
+\contentsline {subsection}{\numberline {5.3.3}{Public Reception}}{28}{subsection.5.3.3}
+\contentsline {subsection}{\numberline {5.3.4}{Analytics}}{30}{subsection.5.3.4}
+\contentsline {subsection}{\numberline {5.3.5}{Open Source}}{31}{subsection.5.3.5}
+\contentsline {subsection}{\numberline {5.3.6}{Moving Forward}}{31}{subsection.5.3.6}
