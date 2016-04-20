@@ -50,6 +50,15 @@
 \usepackage{xparse}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 \usepackage{csvsimple}
+\usepackage{etoolbox}
+\usepackage{multicol}
+\newenvironment{twocolitemize}{%
+\begin{itemize}
+\begin{multicols}{2}
+}{%
+\end{multicols}
+\end{itemize}
+}    
 
 \lstset{	
 	language=PHP,
@@ -164,7 +173,7 @@ Laravel follows the traditional Model-View-Controller design pattern. Models int
 This intrinsic design pattern was followed tightly alongside the addition of a repository layer. As discussed later, \textit{Rally} interacts with several external resources such as the Reddit API and the \textit{Google Cloud Platform}. These external resources house gigabytes of data thus storing them locally and accessing them through a model is counterproductive. To retain the structure of the MVC framework, a repository layer is built on top of the models. This allows for the convenience of a seemingly object oriented interaction with data outside of the application. Not only does it allow for convenient method calls but also abstracts logic away from the controllers, leaving them as slim as possible. This is a vital design philosophy to web development as it modularizes code to ensure a more rigid flow and testable code-base. Basic examples from \textit{Rally} utilizing each level of the MVC framework as well as the repository layer are as follows:
 \par{}
 % Model Example
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{center}
 \begin{lstlisting}
 $cluster_image = Cluster::where("name", $subreddit)->first();
@@ -175,7 +184,7 @@ A basic example of retrieving the first \textit{Cluster} model where the name fi
 \end{figure}
 
 % View Example
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 <select name="labels" . . . multiple="">
 	@foreach($labels as $label)
@@ -188,7 +197,7 @@ A basic example demonstrating how objects passed to the view are utilized and it
 \end{figure}
 
 % Controller Example
-\begin{figure}[!htb]
+\begin{figure}[H]
 \begin{lstlisting}
 public function show(Request $request)
 {
@@ -537,7 +546,82 @@ Requiring \textit{phpRaw} as a dependency for \textit{rally} in composer.}
 \section{Rally}
 Rally combines user statistics, big data, subreddit analysis and RallySearch into one convenient location.
 \subsection{User Statistics}
-On Reddit, users have the ability to view their recent activity (comments, submissions and saved content) and link/comment karma scores. Reddit serves this information in a similar fashion to how they display submissions on their site. This technique is effective for listing out history of comments and submissions but it proves ineffective for quickly interpreting account details. To alleviate this lack of accessibility, upon entering a user name
+On Reddit, users have the ability to view their recent activity (comments, submissions and saved content) and link/comment karma scores. Reddit serves this information in a similar fashion to how they display submissions on their site. This technique is effective for listing out a history of comments and submissions but it proves ineffective for quickly interpreting account details. To alleviate this lack of accessibility, upon entering a user name on the "User Stats" page, users can quickly see the following information on a user:
+\begin{twocolitemize}
+\item{User Card}
+	\begin{itemize}
+	\item{Username}
+	\item{Unique ID}
+	\item{How long they have been a user for}
+	\item{Gold and mod status}
+	\end{itemize}
+\item{Activity over time (Submissions vs. Time of Day)}
+\item{Submission Data}
+	\begin{itemize}
+	\item{Karma}
+	\item{Top submission (with link)}
+	\item{Worst submission (with link)}
+	\item{Most recent submission (with link)}
+	\item{Average karma}
+	\end{itemize}
+\item{Comment Data}
+	\begin{itemize}
+	\item{Karma}
+	\item{Top comment (with link)}
+	\item{Worst comment (with link)}
+	\item{Total comments (with link)}
+	\item{Average karma}
+	\end{itemize}
+\item{Itemized and labelled list of subreddits posted to with badge counts for frequency and highlighting for top}
+\end{twocolitemize}
+
+The user statistics section gathers information exclusively from the API wrapper, phpRaw. Calls to the wrapper are made through a repository layer, as described in the technical stack section under the MVC subsection. It is in surrounding the phpRaw calls with a repository layer we can save on API calls and thus reduce the time it takes to gather the necessary information through method chaining. An example call from the controller to the repository which in turn calls phpRaw is seen in Figure \ref{fig:repotophpraw}. When getUserSubmitted(\$user) is executed, a large response object consisting of most the necessary information for the entire page is returned. By storing this information on the object and making the method chainable (returns an instance of the object) we can have easy and most importantly expressive syntax in calling the approriate information, for example: \$this->redditor->getUserSubmitted(\$user)->getTopUpVotes();.
+\begin{figure}[H]
+\begin{center}
+\begin{lstlisting}
+$subreddits = $this->redditor->getUserSubmitted($user)->getSubredditsList();
+\end{lstlisting}
+\end{center}
+\caption[Example of call to phpRaw through controller via repository]{
+An example of a call to phpRaw through the controller via a repository.}
+\label{fig:repotophpraw}
+\end{figure}
+
+To demonstrate the importance of wrapping the API with phpRaw and the ease of calling it, the php code for generating the vector of active hours for the "Activity Chart" can be seen in Figure \ref{fig:activehours}.
+
+\begin{figure}[H]
+\begin{center}
+\begin{lstlisting}
+public function activeHours()
+{
+	$hours = array_fill(0,24,0);
+	foreach ($this->getSubmissions() as $submission)
+	{
+		$time = Carbon::createFromTimestampUTC($submission->data->created_utc);
+		$hour = $time->hour;
+		$hours[$hour]++;
+	}
+
+	return $hours;
+}
+\end{lstlisting}
+\end{center}
+\caption[Code to generate vector of active hours]{
+The code to generate the vector of active user hours.}
+\label{fig:activehours}
+\end{figure}
+
+\subsection{Subreddit Clustering}
+The information on what hierarchical clustering is and how it was implemented are discussed in detail in the section under Algorithms and Methods so they will not be further explained here. Instead, we will discuss the results from the utilization of clustering and how they are implemented to be presented to the user.
+\par
+Upon landing on the "Subreddit" page and entering the desired subreddit, two main pieces of information are presented: "Sub Info" - basic information card about the subreddit and "Clustering" - the dendrogram.
+\par
+The "Sub Info" card contains the subreddit name, unique ID, subreddit logo (if applicable), motto, description, current number of users and subscribers.
+\par
+The "Clustering" section simply displays the dendrogram. Prior to implementing the dendrogram, it was anticipated that sub-communities amongst subreddits would identify and be focused around a subset of conversation topics/themes amongst posts, this was not the case. Upon tracing through some of the dendrograms and examining the specific groups and linkages, it was discovered that "types" of users were in fact the attribute represented by the clustering. In nearly all cases, the largest group clustered together were that of sparse users who comment only a handful of times and infrequently at that. In most other cases there are two well defined groups, those that comment on nearly all of the top submissions and those that comment on just a couple. The results amongst various subreddits have clear distinctions and defining features but tend to follow the same patterns.
+
+\subsection{Big Data}
+
 
 \section{RallySearch}
 RallySearch is an alternative way of consuming Reddit. Users of Reddit are very limited by the existing search functionality. Though there exists a search bar, it is incredibly ineffective and displays close to no results as intended. Reddit developers have expressed interest in improving the functionality but have not disclosed any immediate plans to do so. This portion of the thesis aims to offer an alternative to browsing Reddit by it's content in a visually pleasing and simple fashion. The name of this standalone service has been dubbed \textit{RallySearch} and as discussed later has been launched and received by the Reddit community.
@@ -595,6 +679,11 @@ The service itself really only exists on one page, the content page. Users can b
 \par
 Users are free to navigate their desired content, expand the preview for a larger view of the media and select similar tags by manually selecting those on a post or by using the "Similar" button.
 
+\subsubsection{Deployment}
+RallySearch is deployed on DigitalOcean, a simple cloud computing hosting company. The web app runs on their cheapest tier server (Ubuntu 14.04 with 512MB of memory, 20GB disk space) and has performs even beyond the needed level. Due the the effeciency and optimization in the web app, it is estimated that this server configuration could serve more than twice the highest reached concurrent users (~50) before suffering any performance costs. 
+\par
+RallySearch has continuous deployment through a third party service called Codeship. Each time changes are pushed to the master branch of the repository, Codeship is triggered by a GIT hook which brings in the changes, updates the dependencies through composer, dumps all autoloaded and caches and seamlessly brings the server up to date as expected. Codeship first brings a virtual server to life with the newest code then copies the changes over to the production code ensuring a near-zero down time. RallySearch ensures only code passing the specified automated tests is deployed to production and notifies immediately if any push does not succeed.
+
 \subsection{Public Reception}
 Because RallySearch is a service for the community and arguably \textit{built by the community} (all the content is theirs), there was a strong desire to push the service live and generate feedback.
 \par
@@ -642,12 +731,19 @@ Google Analytics were implemented and utilized upon launch. This allowed for the
 RallySearch is fully open source. The source code is available publicly on GitHub. There has already been a bit of interest with members of the community and the repository has had three stars from developers. The software is MIT licensed. 
 
 \subsection{Moving Forward}
-[TODO: This section]
+The initial launch of RallySearch has shown the potential to move forward as an individual project. Though there is no intention to have users strictly use the service and abandon browsing Reddit directly, the general consensus has been that it is convenient to relax and browse specific content tailored to a user's interests. Before launching the project and releasing it to the general public by advertising on a higher traffic subreddit, a few improvements and changes need to be made:
+\begin{itemize}
+\item{Automated database backups}
+\item{Remove the small but noticeable jankiness associated with the AJAX page reloading}
+\item{Formal user testing}
+\item{Build tests}
+\item{Update from MySQL to a higher performing database as cardinality increases}
+\end{itemize}
 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
 \pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}
 \bibliographystyle{ubco}
-\bibliography{thesis_references}%name of your .bib file
+\bibliography{thesis_references}%name of your .bib fil%e
 
 \end{document}
 \endinput
