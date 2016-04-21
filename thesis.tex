@@ -621,7 +621,87 @@ The "Sub Info" card contains the subreddit name, unique ID, subreddit logo (if a
 The "Clustering" section simply displays the dendrogram. Prior to implementing the dendrogram, it was anticipated that sub-communities amongst subreddits would identify and be focused around a subset of conversation topics/themes amongst posts, this was not the case. Upon tracing through some of the dendrograms and examining the specific groups and linkages, it was discovered that "types" of users were in fact the attribute represented by the clustering. In nearly all cases, the largest group clustered together were that of sparse users who comment only a handful of times and infrequently at that. In most other cases there are two well defined groups, those that comment on nearly all of the top submissions and those that comment on just a couple. The results amongst various subreddits have clear distinctions and defining features but tend to follow the same patterns.
 
 \subsection{Big Data}
+The Big Data page of Rally is essentially intended to harness and demonstrate the power of Big Query. Big data has become such an umbrella term covering large or complex data processing applications, analysis, capture and visualization. It's use across so many domains has brought about several powerful storage, processing and visualizing services, amongst which is Google BigQuery. Coming from tables spanning sizes of megabytes to tens and twenties of gigabytes, Big Query delivers the fastest out of the box and plug and play relational cloud database.
+\par
+\includegraphics[width=\textwidth]{bigquery.png}
+The first big data snippet on the page is the "Activity Over Time" chart. Users can easily enter the desired subreddits for analysis in the selection box and the graph is redrawn and served to the user in a seemly, AJAX request. As expected, most subreddits take a dip in activity during the night-time (North American timezones). What is interesting is paring subreddits together that are very similar, for example /r/Programming and /r/ProgrammerHumor. Subreddits with an almost directly equal subscriber list follow a nearly identical activity over time, just with more or less amplitude.
+\par
+Because Reddit is a "reward-based" service (you earn karma on submissions and comments), users often inquire when the best time to post a submission is. To answer this question, levraging the speed with which Big Query can read high cardinality tables, this can be accurately determined. By grabbing the highest subscribed subreddits, the results are generated with the query listed in Figure \ref{fig:besttime}.
+\begin{figure}[H]
+\begin{center}
+\begin{lstlisting}
+SELECT GROUP_CONCAT(STRING(sub_hour)) as hours, subreddit, SUM(num_gte_3000) total 
+FROM ( 
+	SELECT HOUR(SEC_TO_TIMESTAMP(created - 60*60*5)) as sub_hour, SUM(score >= 3000) as num_gte_3000, subreddit, RANK() 
+	OVER(PARTITION BY subreddit ORDER BY num_gte_3000 DESC) rank, 
+	FROM [fh-bigquery:reddit_posts.full_corpus_201509] 
+	WHERE YEAR(SEC_TO_TIMESTAMP(created))=2015 
+	GROUP BY sub_hour, subreddit 
+	HAVING num_gte_3000 > 100 
+) 
+WHERE rank<=3 
+GROUP BY subreddit 
+ORDER BY total DESC
+\end{lstlisting}
+\end{center}
+\caption[Query for getting the best time to post on various subreddits]{
+Query for getting the best time to post on various subreddits.}
+\label{fig:besttime}
+\end{figure}
 
+Similarly, three other tables exist on the page answering common questions amongst the community. We will not go in to detail on the queries used to retrieve this information and will instead encourage readers to browse the source code (in particular rally/config/constants.php) for the implemented queries. Their titles with descriptions are listed here:
+\begin{itemize}
+\item{Most popular comments on Reddit}
+	\begin{itemize}
+	\item{Rank}
+	\item{Count frequency}
+	\item{Comment body}
+	\item{Average score}
+	\item{Count of subreddits comment exists on}
+	\item{Count of authors using this comment}
+	\item{An example use case of the comment (link to Reddit)}
+	\end{itemize}
+	
+\item{Difference in Cohorts (Account Creation Date)}
+	\begin{itemize}
+	\item{Year account was created}
+	\item{Number of users}
+	\item{Average number of comments}
+	\item{Number of users still presently active}
+	\item{Sum of their score}
+	\item{Number of gilded users}
+	\item{Average body length of comments}
+	\end{itemize}
+	
+\item{Number of comments by day of the week}
+	\begin{itemize}
+	\item{Day of the week}
+	\item{Number of comments}
+	\end{itemize}
+\end{itemize}
+
+Often with data analysis, users of the service at hand, shareholders at the product under evaluation or developers of software are interested in the results but the meaning gets lost amongst the general public. To demonstrate the breadth of possibility in analysing community-based services like Reddit, a query and visualisation of U.S. election candidate mentions was generated. A screenshot of the generated graph can be seen in Figure \ref{fig:uselectionsscreen} and the query utilized in Figure \ref{fig:ustopcand}.
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{uselectionscreen.png}
+\caption[U.S. elections candidate mention frequency]{
+U.S. elections candidate mention frequency screenshot.}
+\label{fig:uselectionsscreen}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\begin{lstlisting}
+SELECT DATE(USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(created_utc*1000*1000,1))) week, SUM(body CONTAINS "Bernie Sanders") BernieSanders,SUM(body CONTAINS "Hillary Clinton") HillaryClinton,SUM(body CONTAINS "Donald Trump") DonaldTrump,SUM(body CONTAINS "Ted Cruz") TedCruz 
+FROM TABLE_QUERY([fh-bigquery:reddit_comments], 'REGEXP_MATCH(table_id, "201._..$")') 
+GROUP BY 1 
+ORDER BY 1
+\end{lstlisting}
+\end{center}
+\caption[Query for getting the frequency of U.S. candidate mentions]{
+Query for getting the frequency of top U.S. candidate mentions.}
+\label{fig:ustopcand}
+\end{figure}
 
 \section{RallySearch}
 RallySearch is an alternative way of consuming Reddit. Users of Reddit are very limited by the existing search functionality. Though there exists a search bar, it is incredibly ineffective and displays close to no results as intended. Reddit developers have expressed interest in improving the functionality but have not disclosed any immediate plans to do so. This portion of the thesis aims to offer an alternative to browsing Reddit by it's content in a visually pleasing and simple fashion. The name of this standalone service has been dubbed \textit{RallySearch} and as discussed later has been launched and received by the Reddit community.
@@ -743,6 +823,43 @@ The initial launch of RallySearch has shown the potential to move forward as an 
 \newpage %newpage needed otherwise pagestyle applied to previous chapter. Does not actually create a new page
 \pagestyle{fancy}\chead{Bibliography}\rhead{}\cfoot{}\rfoot{\thepage}
 \bibliographystyle{ubco}
+
+\section{User Interface}
+A good user interface (UI) can make or break the success of a website. Too complicated or busy and the site could be left collecting dust on the internet shelves. With Rally, the UI balances a clean look with the necessary interactivity coupled with ease of use and simple navigation. The standalone portion of the site RallySearch will be surveyed and the design choices that went in to designing it as it is slightly more polished than Rally but represents all the same key features.
+\subsection{Semantic UI}
+Semantic UI is a framework designed for site theming. Key features include predifined CSS for elements, variable tuning, inheritance and responsiveness. Semantic is free, open sourced and MIT licensed. It allows developers to ``build beautiful websites fast'', with concise HTML, intuitive javascript and simplified expressive CSS class naming.
+\subsection{RallySearch}
+Near all the interaction on the site takes place on the main index page of the site. Here, users can browse the content and filter by tags if they so wish to.
+
+\includegraphics[width=\textwidth]{rallyindexpage.png}
+When a user lands on the index page, the most recent annotations are displayed and are paginated in group of 20. Splitting the pages is necessary as to avoid loading thousands of models from the database and to avoid screen clutter and jankiness.
+\par
+Each of the annotations are divided up in to cards. A card displays content in a manner similar to a playing card. There is the preview image which is loaded externally from Reddit to reduce server load and increase performance, the listing title which is trimmed with ellipsis, the subreddit the image was posted to, all labels given to the annotation and the card functionality.
+\begin{figure}[H]
+\begin{multicols}{2}
+    \includegraphics[width=\linewidth]{card.png}\par 
+    \includegraphics[width=\linewidth]{card_hover.png}\par 
+\end{multicols}
+\caption{A single card without and with hover.}
+\end{figure}
+A single card has a few aspects of functionality associated with it. First and most important is the ability to follow the link through to Reddit. RallySearch was designed to simply be a more convenient gateway to Reddit content, thus by hovering and clicking "View on Reddit" or directly clicking the submission title, the user is redirected to the submission.
+\par
+If a user wishes to view a larger version of the image, the full title and label list of a card, they simply have to select the "Expand" button in the bottom left. Modals display content in a way that temporarily blocks interactions with the main view of the site. This is really effective for ensuring the user is focusing on the desired content and abstracted from the other "distractions" on the site.
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{modal.png}
+\caption{A card's modal.}
+\end{figure}
+\par
+Since the purpose of the site is to browse Reddit by labels (content), it makes sense there are a few approaches to do so. First and most clear is the ability to type into the dropdown. As the user enters text, their search is refined from the list of pre-existing labels. There is no limit to the number of labels a user can enter however they must select from the pre-existing labels as all results are loaded from already classified annotations. Users also have the option to select the "Similar" option on a card which instantly loads the corresponding tags of the card into the dropdown. The final way a user can refine their search is by directly clicking on a label in a card. If a user wishes to restart their search, they are free to click the clear button located right of the dropdown which reloads the most recent content (all labels).
+\begin{figure}[H]
+\begin{multicols}{3}
+    \includegraphics[width=\linewidth]{dropdown_search.png}\par
+    \includegraphics[width=\linewidth]{similar.png}\par
+    \includegraphics[width=\linewidth]{labelclick.png}\par
+\end{multicols}
+\caption{A single card without and with hover.}
+\end{figure}
+
 \bibliography{thesis_references}%name of your .bib fil%e
 
 \end{document}
