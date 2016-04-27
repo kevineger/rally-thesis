@@ -1,0 +1,37 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{SVI{\etalchar{+}}15}
+
+\bibitem[Atl14]{Atlantic}
+\href{http://www.theatlantic.com/technology/archive/2014/01/ama-how-a-weird-internet-thing-became-a-mainstream-delight/282860/}{Ama:
+  How a weird internet thing became a mainstream delight}, 2014 [cited March 3,
+  2016].
+
+\bibitem[Don10]{DonorsChoose}
+\href{http://www.donorschoose.org/donors/viewChallenge.html?id=39361&home=true}{Welcome
+  redditors!}, 2010 [cited March 3, 2016].
+
+\bibitem[Gua05]{Guardian}
+\href{http://www.theguardian.com/technology/2005/dec/08/innovations.guardianweeklytechnologysection1}{A
+  new website makes it easier to sift the mountains of news content online -
+  and learns what you like}, 2005 [cited March 3, 2016].
+
+\bibitem[Lar14]{Laravel}
+\href{https://laravel.com/docs/4.2/introduction}{Laravel documentation}, 2014
+  [cited March 13, 2016].
+
+\bibitem[Red14]{RedditBlog}
+\href{http://www.redditblog.com/2014/02/decimating-our-ads-revenue.html}{Decimating
+  our ads revenue}, 2014 [cited March 3, 2016].
+
+\bibitem[SVI{\etalchar{+}}15]{DBLP:journals/corr/SzegedyVISW15}
+Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jonathon Shlens, and
+  Zbigniew Wojna.
+\newblock \href{http://arxiv.org/abs/1512.00567}{Rethinking the inception
+  architecture for computer vision}.
+\newblock {\em CoRR}, abs/1512.00567, 2015.
+
+\bibitem[Ten]{TensorFlow}
+\href{https://www.tensorflow.org/versions/r0.8/tutorials/image_recognition/index.html}{Image
+  recognition} [cited April 18, 2016].
+
+\end{thebibliography}
